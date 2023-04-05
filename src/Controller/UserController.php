@@ -10,14 +10,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use DateTimeImmutable;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
-use App\Security\AppCustomAuthenticator;
+use App\Service\UserServiceInterface;
 
 class UserController extends AbstractController
 {
   private $dateTimeImmutable;
 
-  public function __construct(private EntityManagerInterface $entityManager, private UserPasswordHasherInterface $userPasswordHasher)
+  public function __construct(
+    private EntityManagerInterface $entityManager,
+    private UserPasswordHasherInterface $userPasswordHasher,
+    private UserServiceInterface $userService
+  )
   {
     $this->dateTimeImmutable = new DateTimeImmutable();
   }
@@ -25,28 +28,19 @@ class UserController extends AbstractController
   #[Route(path: '/users', name: 'user_list')]
   public function listAction()
   {
-    return $this->render('user/list.html.twig', ['users' => $this->entityManager->getRepository(User::class)->findAll()]);
+    $users = $this->userService->display();
+
+    return $this->render('user/list.html.twig', ['users' => $users]);
   }
 
   #[Route(path: '/users/{id}/edit', name: 'user_edit')]
   public function editAction(User $user, Request $request, UserPasswordHasherInterface $userPasswordHasher)
   {
     $form = $this->createForm(RegistrationFormType::class, $user);
-
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      // encode the plain password
-      $user->setPassword(
-        $userPasswordHasher->hashPassword(
-          $user,
-          $form->get('plainPassword')->getData()
-        )
-      );
-
-      $this->entityManager->persist($user);
-      $this->entityManager->flush();
-
+      $this->userService->update($user, $form->get('plainPassword')->getData());
       $this->addFlash('success', "L'utilisateur a bien été modifié");
 
       return $this->redirectToRoute('user_list');
