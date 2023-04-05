@@ -8,112 +8,117 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Entity\Trait\CreatedAtTrait;
+use App\Entity\Trait\UpdatedAtTrait;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+  use CreatedAtTrait;
+  use UpdatedAtTrait;
 
-    #[ORM\Column(length: 180, unique: true, type: 'string')]
-    #[Assert\Length(max: 180, maxMessage: 'Votre email ne doit pas dépasser {{ limit }} caractères')]
-    private ?string $email = null;
+  #[ORM\Id]
+  #[ORM\GeneratedValue]
+  #[ORM\Column]
+  private ?int $id = null;
 
-    #[ORM\Column]
-    private array $roles = [];
+  #[ORM\Column(length: 180, unique: true, type: 'string')]
+  #[Assert\Length(max: 180, maxMessage: 'Votre email ne doit pas dépasser {{ limit }} caractères')]
+  private ?string $email = null;
 
-    /**
-     * @var string The hashed password
-     */
-    #[ORM\Column(type: 'string')]
-    private ?string $password = null;
+  #[ORM\Column]
+  private array $roles = [];
 
-    #[ORM\Column(length: 25, unique: true, type: 'string')]
-    #[Assert\Length(min: 3, max: 25, minMessage: 'Votre pseudo doit contenir au moins {{ limit }} caractères', maxMessage: 'Votre pseudo ne doit pas dépasser {{ limit }} caractères')]
-    private ?string $username = null;
+  /**
+   * @var string The hashed password
+   */
+  #[ORM\Column(type: 'string')]
+  private ?string $password = null;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+  #[ORM\Column(length: 25, unique: true, type: 'string')]
+  #[Assert\Length(min: 3, max: 25, minMessage: 'Votre pseudo doit contenir au moins {{ limit }} caractères', maxMessage: 'Votre pseudo ne doit pas dépasser {{ limit }} caractères')]
+  private ?string $username = null;
 
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
+  public function getId(): ?int
+  {
+    return $this->id;
+  }
 
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
+  public function getEmail(): ?string
+  {
+    return $this->email;
+  }
 
-        return $this;
-    }
+  public function setEmail(string $email): self
+  {
+    $this->email = $email;
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
-    public function getUserIdentifier(): string
-    {
-        return (string) $this->email;
-    }
+    return $this;
+  }
 
-    /**
-     * @see UserInterface
-     */
-    public function getRoles(): array
-    {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+  /**
+   * A visual identifier that represents this user.
+   *
+   * @see UserInterface
+   */
+  public function getUserIdentifier(): string
+  {
+    return (string) $this->email;
+  }
 
-        return array_unique($roles);
-    }
+  /**
+   * @see UserInterface
+   */
+  public function getRoles(): array
+  {
+    $roles = $this->roles;
+    // guarantee every user at least has ROLE_USER
+    $roles[] = 'ROLE_USER';
 
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
+    return array_unique($roles);
+  }
 
-        return $this;
-    }
+  public function setRoles(array $roles): self
+  {
+    $this->roles = $roles;
 
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
+    return $this;
+  }
 
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
+  /**
+   * @see PasswordAuthenticatedUserInterface
+   */
+  public function getPassword(): string
+  {
+    return $this->password;
+  }
 
-        return $this;
-    }
+  public function setPassword(string $password): self
+  {
+    $this->password = $password;
 
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials()
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
-    }
+    return $this;
+  }
 
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
+  /**
+   * @see UserInterface
+   */
+  public function eraseCredentials()
+  {
+    // If you store any temporary, sensitive data on the user, clear it here
+    // $this->plainPassword = null;
+  }
 
-    public function setUsername(string $username): self
-    {
-        $this->username = $username;
+  public function getUsername(): ?string
+  {
+    return $this->username;
+  }
 
-        return $this;
-    }
+  public function setUsername(string $username): self
+  {
+    $this->username = $username;
+
+    return $this;
+  }
 }
