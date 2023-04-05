@@ -9,12 +9,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use DateTimeImmutable;
+use App\Service\TaskServiceInterface;
 
 class TaskController extends AbstractController
 {
   private $dateTimeImmutable;
 
-  public function __construct(private EntityManagerInterface $entityManager)
+  public function __construct(
+    private EntityManagerInterface $entityManager,
+    private TaskServiceInterface $taskService
+  )
   {
     $this->dateTimeImmutable = new DateTimeImmutable();
   }
@@ -30,19 +34,10 @@ class TaskController extends AbstractController
   {
     $task = new Task();
     $form = $this->createForm(TaskType::class, $task);
-
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      $date = $this->dateTimeImmutable;
-      $task
-        ->setIsDone(false)
-        ->setCreatedAt($date)
-        ->setUpdatedAt($date)
-      ;
-      $this->entityManager->persist($task);
-      $this->entityManager->flush();
-
+      $this->taskService->create($task);
       $this->addFlash('success', 'La tâche a été bien été ajoutée.');
 
       return $this->redirectToRoute('task_list');
@@ -55,12 +50,10 @@ class TaskController extends AbstractController
   public function editAction(Task $task, Request $request)
   {
     $form = $this->createForm(TaskType::class, $task);
-
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      $this->entityManager->flush();
-
+      $this->taskService->update($task);
       $this->addFlash('success', 'La tâche a bien été modifiée.');
 
       return $this->redirectToRoute('task_list');
@@ -75,9 +68,7 @@ class TaskController extends AbstractController
   #[Route(path: '/tasks/{id}/toggle', name: 'task_toggle')]
   public function toggleTaskAction(Task $task)
   {
-    $task->setIsDone(!$task->isIsDone());
-    $this->entityManager->persist($task);
-    $this->entityManager->flush();
+    $this->taskService->toggleIsDone($task);
 
     if($task->isIsDone()){
       $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle()));
@@ -91,9 +82,7 @@ class TaskController extends AbstractController
   #[Route(path: '/tasks/{id}/delete', name: 'task_delete')]
   public function deleteTaskAction(Task $task)
   {
-    $this->entityManager->remove($task);
-    $this->entityManager->flush();
-
+    $this->taskService->delete($task);
     $this->addFlash('success', 'La tâche a bien été supprimée.');
 
     return $this->redirectToRoute('task_list');
