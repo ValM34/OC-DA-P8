@@ -37,7 +37,7 @@ class TaskController extends AbstractController
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      $this->taskService->create($task);
+      $this->taskService->create($task, $this->getUser());
       $this->addFlash('success', 'La tâche a été bien été ajoutée.');
 
       return $this->redirectToRoute('task_list');
@@ -49,6 +49,8 @@ class TaskController extends AbstractController
   #[Route(path: '/tasks/{id}/edit', name: 'task_edit')]
   public function editAction(Task $task, Request $request)
   {
+    $this->denyAccessUnlessGranted('handle', $task);
+
     $form = $this->createForm(TaskType::class, $task);
     $form->handleRequest($request);
 
@@ -68,6 +70,8 @@ class TaskController extends AbstractController
   #[Route(path: '/tasks/{id}/toggle', name: 'task_toggle')]
   public function toggleTaskAction(Task $task)
   {
+    $this->denyAccessUnlessGranted('handle', $task);
+
     $this->taskService->toggleIsDone($task);
 
     if($task->isIsDone()){
@@ -82,6 +86,8 @@ class TaskController extends AbstractController
   #[Route(path: '/tasks/{id}/delete', name: 'task_delete')]
   public function deleteTaskAction(Task $task)
   {
+    $this->denyAccessUnlessGranted('handle', $task);
+    
     $this->taskService->delete($task);
     $this->addFlash('success', 'La tâche a bien été supprimée.');
 
