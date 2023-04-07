@@ -35,6 +35,7 @@ class UserService implements UserServiceInterface
     $user
       ->setCreatedAt($date)
       ->setUpdatedAt($date)
+      ->setRoles(["ROLE_USER"])
     ;
     $this->define($user, $plainPassword);
     $this->userAuthenticator->authenticateUser($user, $this->authenticator, $request);

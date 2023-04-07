@@ -6,6 +6,7 @@ use App\Service\TaskServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Task;
+use App\Entity\User;
 use \DateTimeImmutable;
 
 class TaskService implements TaskServiceInterface
@@ -18,13 +19,14 @@ class TaskService implements TaskServiceInterface
     $this->dateTimeImmutable = new DateTimeImmutable();
   }
 
-  public function create(Task $task): void
+  public function create(Task $task, User $user): void
   {
     $date = $this->dateTimeImmutable;
     $task
       ->setIsDone(false)
       ->setCreatedAt($date)
       ->setUpdatedAt($date)
+      ->setUser($user)
     ;
 
     $this->entityManager->persist($task);

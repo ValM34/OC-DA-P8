@@ -12,15 +12,22 @@ use App\Service\UserServiceInterface;
 
 class RegistrationController extends AbstractController
 {
+  private $user;
+
   public function __construct(
     private UserServiceInterface $userService
   )
-  {}
+  {
+    $this->user = new User();
+  }
 
   // REGISTER
   #[Route('/users/create', name: 'user_create')]
   public function register(Request $request): Response
   {
+    // check for "view" access: calls all voters
+    $this->denyAccessUnlessGranted('create', $this->user);
+
     $user = new User();
     $form = $this->createForm(RegistrationFormType::class, $user);
     $form->handleRequest($request);

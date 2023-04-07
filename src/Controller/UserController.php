@@ -36,6 +36,8 @@ class UserController extends AbstractController
   #[Route(path: '/users/{id}/edit', name: 'user_edit')]
   public function editAction(User $user, Request $request, UserPasswordHasherInterface $userPasswordHasher)
   {
+    $this->denyAccessUnlessGranted('update', $user);
+    
     $form = $this->createForm(RegistrationFormType::class, $user);
     $form->handleRequest($request);
 

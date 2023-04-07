@@ -30,6 +30,10 @@ class Task
   #[ORM\Column(type: 'boolean')]
   private ?bool $isDone = null;
 
+  #[ORM\ManyToOne(inversedBy: 'tasks')]
+  #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+  private ?User $user = null;
+
   public function getId(): ?int
   {
     return $this->id;
@@ -69,5 +73,17 @@ class Task
     $this->isDone = $isDone;
 
     return $this;
+  }
+
+  public function getUser(): ?User
+  {
+      return $this->user;
+  }
+
+  public function setUser(?User $user): self
+  {
+      $this->user = $user;
+
+      return $this;
   }
 }
