@@ -33,8 +33,8 @@
           <div class="hidden-custom nav-links-container" id="nav_links_container">
             {% if app.user %}
 						  <a href="{{ path('task_create') }}" class="nav-link">Créer une tâche</a>
-						  <a href="{{ path('task_list') }}" class="nav-link">Liste des tâches à faire</a>
-						  <a href="" class="nav-link">Liste des tâches terminées (lien vide)</a>
+						  <a href="{{ path('task_list') }}?isDone=false" class="nav-link">Liste des tâches à faire</a>
+						  <a href="{{ path('task_list') }}?isDone=true" class="nav-link">Liste des tâches terminées</a>
 						  <a href="{{ path('user_create') }}" class="nav-link">Créer un utilisateur</a>
               <a href="{{ path('logout') }}" class="nav-link" style="background-color: #cf3d3d">Se déconnecter</a>
             {% endif %}
