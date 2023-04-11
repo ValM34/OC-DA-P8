@@ -19,6 +19,20 @@ class TaskService implements TaskServiceInterface
     $this->dateTimeImmutable = new DateTimeImmutable();
   }
 
+  public function display(User $user, Request $request)
+  {
+    $isDone = $request->query->get('isDone');
+    if($isDone === 'true'){
+      $isDone = true;
+    } else if($isDone === 'false'){
+      $isDone = false;
+    } else {
+      $isDone = true;
+    }
+
+    return $this->entityManager->getRepository(Task::class)->findByIsDone($user, $isDone);
+  }
+
   public function create(Task $task, User $user): void
   {
     $date = $this->dateTimeImmutable;
