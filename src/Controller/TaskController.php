@@ -42,7 +42,7 @@ class TaskController extends AbstractController
       $this->taskService->create($task, $this->getUser());
       $this->addFlash('success', 'La tâche a été bien été ajoutée.');
 
-      return $this->redirectToRoute('task_list');
+      return $this->redirectToRoute('task_list', ['isDone' => 'false']);
     }
 
     return $this->render('task/create.html.twig', ['form' => $form->createView()]);
@@ -70,7 +70,7 @@ class TaskController extends AbstractController
   }
 
   #[Route(path: '/tasks/{id}/toggle', name: 'task_toggle')]
-  public function toggleTaskAction(Task $task)
+  public function toggleTaskAction(Task $task, Request $request)
   {
     $this->denyAccessUnlessGranted('handle', $task);
 
@@ -78,11 +78,13 @@ class TaskController extends AbstractController
 
     if($task->isIsDone()){
       $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle()));
+
+      return $this->redirectToRoute('task_list', ['isDone' => 'true']);
     } else {
       $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme non terminée.', $task->getTitle()));
-    }
 
-    return $this->redirectToRoute('task_list');
+      return $this->redirectToRoute('task_list', ['isDone' => 'false']);
+    }
   }
 
   #[Route(path: '/tasks/{id}/delete', name: 'task_delete')]
