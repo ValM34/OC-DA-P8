@@ -52,3 +52,82 @@ body {
 footer {
     margin: 50px 0;
 }
+
+.nav-link {
+  margin-right: 10px;
+  background-color: #337ab7;
+  padding: 5px 10px;
+  color: white;
+  width: 100%;
+}
+
+.nav-link:hover {
+  color: white;
+  text-decoration: none;
+}
+
+@media screen and (min-width: 992px) {
+  .nav-link {
+    margin-right: 10px;
+    border-radius: 100px;
+    width: auto;
+  }
+}
+
+.navbar-header {
+  width: 100%;
+  margin: 0!important;
+}
+
+@media screen and (min-width: 992px) {
+  .navbar-header {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.nav-links-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+@media screen and (min-width: 992px) {
+  .nav-links-container {
+    flex-direction: row;
+  }
+}
+
+.hidden-custom {
+  display: none;
+}
+
+@media screen and (min-width: 992px) {
+  .hidden-custom {
+    display: flex;
+  }
+}
+
+.burger-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+@media screen and (min-width: 992px) {
+  .burger-btn {
+    display: none;
+  }
+}
+
+.burger-btn > span {
+  height: 2px;
+  display: block;
+  width: 30px;
+  background-color: black;
+  margin-bottom: 5px;
+}
+
+.navbar-brand {
+  min-width: 150px;
+}
