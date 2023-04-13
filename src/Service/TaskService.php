@@ -7,64 +7,64 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Task;
 use App\Entity\User;
-use \DateTimeImmutable;
+use DateTimeImmutable;
 
 class TaskService implements TaskServiceInterface
 {
-  private $dateTimeImmutable;
+    private $dateTimeImmutable;
 
-  public function __construct(
-    private EntityManagerInterface $entityManager
-  ) {
-    $this->dateTimeImmutable = new DateTimeImmutable();
-  }
-
-  public function display(User $user, Request $request)
-  {
-    $isDone = $request->query->get('isDone');
-    if($isDone === 'true'){
-      $isDone = true;
-    } else if($isDone === 'false'){
-      $isDone = false;
-    } else {
-      $isDone = true;
+    public function __construct(
+        private EntityManagerInterface $entityManager
+    ) {
+        $this->dateTimeImmutable = new DateTimeImmutable();
     }
 
-    return $this->entityManager->getRepository(Task::class)->findByIsDone($user, $isDone);
-  }
+    public function display(User $user, Request $request)
+    {
+        $isDone = $request->query->get('isDone');
+        if($isDone === 'true') {
+            $isDone = true;
+        } elseif($isDone === 'false') {
+            $isDone = false;
+        } else {
+            $isDone = true;
+        }
 
-  public function create(Task $task, User $user): void
-  {
-    $date = $this->dateTimeImmutable;
-    $task
-      ->setIsDone(false)
-      ->setCreatedAt($date)
-      ->setUpdatedAt($date)
-      ->setUser($user)
-    ;
+        return $this->entityManager->getRepository(Task::class)->findByIsDone($user, $isDone);
+    }
 
-    $this->entityManager->persist($task);
-    $this->entityManager->flush();
-  }
+    public function create(Task $task, User $user): void
+    {
+        $date = $this->dateTimeImmutable;
+        $task
+          ->setIsDone(false)
+          ->setCreatedAt($date)
+          ->setUpdatedAt($date)
+          ->setUser($user)
+        ;
 
-  public function update(Task $task): void
-  {
-    $task
-      ->setUpdatedAt($this->dateTimeImmutable)
-    ;
-    $this->entityManager->flush();
-  }
+        $this->entityManager->persist($task);
+        $this->entityManager->flush();
+    }
 
-  public function toggleIsDone(Task $task): void
-  {
-    $task->setIsDone(!$task->isIsDone());
-    $this->entityManager->persist($task);
-    $this->entityManager->flush();
-  }
+    public function update(Task $task): void
+    {
+        $task
+          ->setUpdatedAt($this->dateTimeImmutable)
+        ;
+        $this->entityManager->flush();
+    }
 
-  public function delete(Task $task): void
-  {
-    $this->entityManager->remove($task);
-    $this->entityManager->flush();
-  }
+    public function toggleIsDone(Task $task): void
+    {
+        $task->setIsDone(!$task->isIsDone());
+        $this->entityManager->persist($task);
+        $this->entityManager->flush();
+    }
+
+    public function delete(Task $task): void
+    {
+        $this->entityManager->remove($task);
+        $this->entityManager->flush();
+    }
 }

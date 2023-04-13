@@ -9,39 +9,39 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class TaskVoter extends Voter
 {
-  const HANDLE = 'handle';
+    public const HANDLE = 'handle';
 
-  protected function supports(string $attribute, mixed $subject): bool
-  {
-    // if the attribute isn't one we support, return false
-    if (!in_array($attribute, [self::HANDLE])) {
-      return false;
+    protected function supports(string $attribute, mixed $subject): bool
+    {
+        // if the attribute isn't one we support, return false
+        if (!in_array($attribute, [self::HANDLE])) {
+            return false;
+        }
+
+        // only vote on `User` objects
+        if (!$subject instanceof Task) {
+            return false;
+        }
+
+        return true;
     }
 
-    // only vote on `User` objects
-    if (!$subject instanceof Task) {
-      return false;
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
+    {
+        $user = $token->getUser();
+        if (!$user instanceof User) {
+            // the user must be logged in; if not, deny access
+            return false;
+        }
+
+        return match ($attribute) {
+            self::HANDLE => $this->canHandle($subject, $user),
+            default => throw new \LogicException('This code should not be reached!')
+        };
     }
 
-    return true;
-  }
-
-  protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
-  {
-    $user = $token->getUser();
-    if (!$user instanceof User) {
-      // the user must be logged in; if not, deny access
-      return false;
+    private function canHandle(mixed $subject, User $user)
+    {
+        return $subject->getUser() === $user;
     }
-
-    return match ($attribute) {
-      self::HANDLE => $this->canHandle($subject, $user),
-      default => throw new \LogicException('This code should not be reached!')
-    };
-  }
-
-  private function canHandle(mixed $subject, User $user)
-  {
-    return $subject->getUser() === $user;
-  }
 }
