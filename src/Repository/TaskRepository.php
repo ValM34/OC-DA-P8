@@ -17,65 +17,65 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class TaskRepository extends ServiceEntityRepository
 {
-  public function __construct(ManagerRegistry $registry)
-  {
-    parent::__construct($registry, Task::class);
-  }
-
-  public function save(Task $entity, bool $flush = false): void
-  {
-    $this->getEntityManager()->persist($entity);
-
-    if ($flush) {
-      $this->getEntityManager()->flush();
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Task::class);
     }
-  }
 
-  public function remove(Task $entity, bool $flush = false): void
-  {
-    $this->getEntityManager()->remove($entity);
+    public function save(Task $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($entity);
 
-    if ($flush) {
-      $this->getEntityManager()->flush();
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
     }
-  }
 
-  public function findByIsDone(User $user, bool $isDone)
-  {
-    return $this->createQueryBuilder('t')
-      ->select('t', 'u')
-      ->leftJoin('t.user', 'u')
-      ->andWhere('u = :user')
-      ->andWhere('t.isDone = :isDone')
-      ->setParameter('isDone', $isDone)
-      ->setParameter('user', $user)
-      ->getQuery()
-      ->getResult()
-    ;
-  }
+    public function remove(Task $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($entity);
 
-  //    /**
-  //     * @return Task[] Returns an array of Task objects
-  //     */
-  //    public function findByExampleField($value): array
-  //    {
-  //        return $this->createQueryBuilder('t')
-  //            ->andWhere('t.exampleField = :val')
-  //            ->setParameter('val', $value)
-  //            ->orderBy('t.id', 'ASC')
-  //            ->setMaxResults(10)
-  //            ->getQuery()
-  //            ->getResult()
-  //        ;
-  //    }
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 
-  //    public function findOneBySomeField($value): ?Task
-  //    {
-  //        return $this->createQueryBuilder('t')
-  //            ->andWhere('t.exampleField = :val')
-  //            ->setParameter('val', $value)
-  //            ->getQuery()
-  //            ->getOneOrNullResult()
-  //        ;
-  //    }
+    public function findByIsDone(User $user, bool $isDone)
+    {
+        return $this->createQueryBuilder('t')
+          ->select('t', 'u')
+          ->leftJoin('t.user', 'u')
+          ->andWhere('u = :user')
+          ->andWhere('t.isDone = :isDone')
+          ->setParameter('isDone', $isDone)
+          ->setParameter('user', $user)
+          ->getQuery()
+          ->getResult()
+        ;
+    }
+
+    //    /**
+    //     * @return Task[] Returns an array of Task objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('t')
+    //            ->andWhere('t.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('t.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
+
+    //    public function findOneBySomeField($value): ?Task
+    //    {
+    //        return $this->createQueryBuilder('t')
+    //            ->andWhere('t.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

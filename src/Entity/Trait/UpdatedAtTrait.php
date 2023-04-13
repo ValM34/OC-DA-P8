@@ -7,18 +7,18 @@ use DateTimeImmutable;
 
 trait UpdatedAtTrait
 {
-  #[ORM\Column]
-  private ?\DateTimeImmutable $updatedAt = null;
+    #[ORM\Column]
+    private ?\DateTimeImmutable $updatedAt = null;
 
-  public function getUpdatedAt(): \DateTimeImmutable
-  {
-    return $this->updatedAt;
-  }
+    public function getUpdatedAt(): \DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
 
-  public function setUpdatedAt($updatedAt): self
-  {
-    $this->updatedAt = $updatedAt;
+    public function setUpdatedAt($updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
-    return $this;
-  }
+        return $this;
+    }
 }
