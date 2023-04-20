@@ -33,3 +33,11 @@ PHP MD permet d'analyser le code, on peut analyser plusieurs choses et chsoisir 
 ```bash
 php vendor/bin/phpmd src text codesize,unusedcode,naming
 ```
+
+### Tests fonctionnels :  
+```bash
+php bin/console doctrine:database:create --env=test
+php bin/console doctrine:migrations:migrate --env=test
+php bin/console doctrine:fixtures:load --env=test
+symfony php bin/phpunit
+```
