@@ -26,7 +26,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true, type: 'string')]
-    #[Assert\Length(max: 180, maxMessage: 'Votre email ne doit pas dépasser {{ limit }} caractères')]
+    #[Assert\Length(min: 5, max: 180, maxMessage: 'Votre email ne doit pas dépasser {{ limit }} caractères')]
     private ?string $email = null;
 
     #[ORM\Column]
