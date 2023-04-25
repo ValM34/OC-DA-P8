@@ -36,6 +36,7 @@
 						  <a href="{{ path('task_list', {isDone: false}) }}" class="nav-link">Liste des tâches à faire</a>
 						  <a href="{{ path('task_list', {isDone: true}) }}" class="nav-link">Liste des tâches terminées</a>
 						  <a href="{{ path('user_create') }}" class="nav-link">Créer un utilisateur</a>
+						  <a href="{{ path('user_list') }}" class="nav-link">Liste des utilisateurs</a>
               <a href="{{ path('logout') }}" class="nav-link" style="background-color: #cf3d3d">Se déconnecter</a>
             {% endif %}
             {% if not app.user and 'login' != app.request.attributes.get('_route') %}
