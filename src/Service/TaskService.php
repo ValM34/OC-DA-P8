@@ -30,11 +30,10 @@ class TaskService implements TaskServiceInterface
     {
         $date = $this->dateTimeImmutable;
         $task
-          ->setIsDone(false)
-          ->setCreatedAt($date)
-          ->setUpdatedAt($date)
-          ->setUser($user)
-        ;
+            ->setIsDone(false)
+            ->setCreatedAt($date)
+            ->setUpdatedAt($date)
+            ->setUser($user);
 
         $this->entityManager->persist($task);
         $this->entityManager->flush();
@@ -43,8 +42,7 @@ class TaskService implements TaskServiceInterface
     public function update(Task $task): void
     {
         $task
-          ->setUpdatedAt($this->dateTimeImmutable)
-        ;
+            ->setUpdatedAt($this->dateTimeImmutable);
         $this->entityManager->flush();
     }
 

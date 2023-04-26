@@ -32,7 +32,6 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $this->userService->create($user, $form->get('plainPassword')->getData(), $request);
 
             return $this->redirectToRoute('user_list');

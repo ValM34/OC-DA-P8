@@ -20,11 +20,21 @@ class Task
     private ?int $id = null;
 
     #[ORM\Column(length: 150, type: 'string')]
-    #[Assert\Length(min: 3, max: 150, minMessage: 'Votre titre doit contenir au moins {{ limit }} caractères', maxMessage: 'Votre titre ne doit pas dépasser {{ limit }} caractères')]
+    #[Assert\Length(
+        min: 3,
+        max: 150,
+        minMessage: 'Votre titre doit contenir au moins {{ limit }} caractères',
+        maxMessage: 'Votre titre ne doit pas dépasser {{ limit }} caractères'
+    )]
     private ?string $title = null;
 
     #[ORM\Column(length: 500, type: 'string')]
-    #[Assert\Length(min: 3, max: 500, minMessage: 'Votre contenu doit contenir au moins {{ limit }} caractères', maxMessage: 'Votre contenu ne doit pas dépasser {{ limit }} caractères')]
+    #[Assert\Length(
+        min: 3,
+        max: 500,
+        minMessage: 'Votre contenu doit contenir au moins {{ limit }} caractères',
+        maxMessage: 'Votre contenu ne doit pas dépasser {{ limit }} caractères'
+    )]
     private ?string $content = null;
 
     #[ORM\Column(type: 'boolean')]

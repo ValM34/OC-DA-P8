@@ -25,14 +25,13 @@ class TaskRepository extends ServiceEntityRepository
     public function findByIsDone(User $user, bool $isDone)
     {
         return $this->createQueryBuilder('t')
-          ->select('t', 'u')
-          ->leftJoin('t.user', 'u')
-          ->andWhere('u = :user')
-          ->andWhere('t.isDone = :isDone')
-          ->setParameter('isDone', $isDone)
-          ->setParameter('user', $user)
-          ->getQuery()
-          ->getResult()
-        ;
+            ->select('t', 'u')
+            ->leftJoin('t.user', 'u')
+            ->andWhere('u = :user')
+            ->andWhere('t.isDone = :isDone')
+            ->setParameter('isDone', $isDone)
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
     }
 }
