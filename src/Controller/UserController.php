@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use DateTimeImmutable;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Service\UserServiceInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends AbstractController
 {
@@ -24,16 +25,16 @@ class UserController extends AbstractController
         $this->dateTimeImmutable = new DateTimeImmutable();
     }
 
-    #[Route(path: '/users', name: 'user_list')]
-    public function listAction()
+    #[Route(path: '/users', name: 'user_list', methods: ['GET'])]
+    public function listAction(): Response
     {
         $users = $this->userService->display();
 
         return $this->render('user/list.html.twig', ['users' => $users]);
     }
 
-    #[Route(path: '/users/{id}/edit', name: 'user_edit')]
-    public function editAction(User $user, Request $request, UserPasswordHasherInterface $userPasswordHasher)
+    #[Route(path: '/users/{id}/edit', name: 'user_edit', methods: ['GET', 'POST'])]
+    public function editAction(User $user, Request $request): Response
     {
         $this->denyAccessUnlessGranted('update', $user);
 

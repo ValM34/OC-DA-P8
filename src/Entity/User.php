@@ -10,8 +10,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Entity\Trait\CreatedAtTrait;
-use App\Entity\Trait\UpdatedAtTrait;
+use App\Entity\Utils\CreatedAtTrait;
+use App\Entity\Utils\UpdatedAtTrait;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'Il y a déjà un compte avec cet email')]
@@ -47,7 +47,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     )]
     private ?string $username = null;
 
-    #[ORM\OneToMany(mappedBy: 'userId', targetEntity: Task::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Task::class, orphanRemoval: true)]
     private Collection $tasks;
 
     public function __construct()
@@ -119,10 +119,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
     }
 
     public function getUsername(): ?string

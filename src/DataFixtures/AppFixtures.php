@@ -50,7 +50,7 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
-    public function addTaskForUser(User $user, ObjectManager $manager)
+    public function addTaskForUser(User $user, ObjectManager $manager): void
     {
         $date = new DateTimeImmutable();
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity\Trait;
+namespace App\Entity\Utils;
 
 use Doctrine\ORM\Mapping as ORM;
 use DateTimeImmutable;
@@ -20,7 +20,7 @@ trait CreatedAtTrait
         return $this->createdAt;
     }
 
-    public function setCreatedAt($createdAt): self
+    public function setCreatedAt(DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 
