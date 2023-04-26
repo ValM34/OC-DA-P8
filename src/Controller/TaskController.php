@@ -73,7 +73,7 @@ class TaskController extends AbstractController
     }
 
     #[Route(path: '/tasks/{id}/toggle', name: 'task_toggle', methods: ['GET'])]
-    public function toggleTaskAction(Task $task, Request $request): Response
+    public function toggleTaskAction(Task $task): Response
     {
         $this->denyAccessUnlessGranted('handle', $task);
 

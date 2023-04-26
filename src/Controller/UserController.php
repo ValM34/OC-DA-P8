@@ -34,7 +34,7 @@ class UserController extends AbstractController
     }
 
     #[Route(path: '/users/{id}/edit', name: 'user_edit', methods: ['GET', 'POST'])]
-    public function editAction(User $user, Request $request, UserPasswordHasherInterface $userPasswordHasher): Response
+    public function editAction(User $user, Request $request): Response
     {
         $this->denyAccessUnlessGranted('update', $user);
 

@@ -27,6 +27,10 @@ Pour vérifier une convention précise (par exemple PSR12 pour src), lancez cett
 ```bash
 phpcs --standard=PSR12 src
 ```
+Pour fixer cette même convention : 
+```bash
+phpcbf --standard=PSR12 src
+```
 
 ### PHP MD :   
 PHP MD permet d'analyser le code, on peut analyser plusieurs choses et chsoisir ce qu'on analyse (pour d'informations : https://phpmd.org/documentation/index.html). Exemple de test sur le dossier src :  
