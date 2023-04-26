@@ -40,7 +40,7 @@ class TaskVoter extends Voter
         };
     }
 
-    private function canHandle(mixed $subject, User $user)
+    private function canHandle(mixed $subject, User $user): bool
     {
         return $subject->getUser() === $user;
     }

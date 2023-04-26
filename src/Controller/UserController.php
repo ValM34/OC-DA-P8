@@ -25,7 +25,7 @@ class UserController extends AbstractController
         $this->dateTimeImmutable = new DateTimeImmutable();
     }
 
-    #[Route(path: '/users', name: 'user_list')]
+    #[Route(path: '/users', name: 'user_list', methods: ['GET'])]
     public function listAction(): Response
     {
         $users = $this->userService->display();
@@ -33,7 +33,7 @@ class UserController extends AbstractController
         return $this->render('user/list.html.twig', ['users' => $users]);
     }
 
-    #[Route(path: '/users/{id}/edit', name: 'user_edit')]
+    #[Route(path: '/users/{id}/edit', name: 'user_edit', methods: ['GET', 'POST'])]
     public function editAction(User $user, Request $request, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $this->denyAccessUnlessGranted('update', $user);
