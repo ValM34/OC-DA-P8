@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use DateTimeImmutable;
 use App\Service\TaskServiceInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 class TaskController extends AbstractController
 {
@@ -22,16 +23,16 @@ class TaskController extends AbstractController
         $this->dateTimeImmutable = new DateTimeImmutable();
     }
 
-    #[Route('/tasks', name: 'task_list')]
-    public function listAction(Request $request)
+    #[Route('/tasks', name: 'task_list', methods: ['GET'])]
+    public function listAction(Request $request): Response
     {
         $tasksList = $this->taskService->display($this->getUser(), $request);
 
         return $this->render('task/list.html.twig', ['tasks' => $tasksList]);
     }
 
-    #[Route('/tasks/create', name: 'task_create')]
-    public function createAction(Request $request)
+    #[Route('/tasks/create', name: 'task_create', methods: ['GET', 'POST'])]
+    public function createAction(Request $request): Response
     {
         $task = new Task();
         $form = $this->createForm(TaskType::class, $task);
@@ -47,8 +48,8 @@ class TaskController extends AbstractController
         return $this->render('task/create.html.twig', ['form' => $form->createView()]);
     }
 
-    #[Route(path: '/tasks/{id}/edit', name: 'task_edit')]
-    public function editAction(Task $task, Request $request)
+    #[Route(path: '/tasks/{id}/edit', name: 'task_edit', methods: ['GET', 'POST'])]
+    public function editAction(Task $task, Request $request): Response
     {
         $this->denyAccessUnlessGranted('handle', $task);
 
@@ -71,8 +72,8 @@ class TaskController extends AbstractController
         );
     }
 
-    #[Route(path: '/tasks/{id}/toggle', name: 'task_toggle')]
-    public function toggleTaskAction(Task $task, Request $request)
+    #[Route(path: '/tasks/{id}/toggle', name: 'task_toggle', methods: ['GET'])]
+    public function toggleTaskAction(Task $task, Request $request): Response
     {
         $this->denyAccessUnlessGranted('handle', $task);
 
@@ -92,8 +93,8 @@ class TaskController extends AbstractController
         }
     }
 
-    #[Route(path: '/tasks/{id}/delete', name: 'task_delete')]
-    public function deleteTaskAction(Task $task)
+    #[Route(path: '/tasks/{id}/delete', name: 'task_delete', methods: ['GET'])]
+    public function deleteTaskAction(Task $task): Response
     {
         $this->denyAccessUnlessGranted('handle', $task);
 

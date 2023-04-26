@@ -15,7 +15,7 @@ trait UpdatedAtTrait
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt($updatedAt): self
+    public function setUpdatedAt(DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 

@@ -20,7 +20,7 @@ trait CreatedAtTrait
         return $this->createdAt;
     }
 
-    public function setCreatedAt($createdAt): self
+    public function setCreatedAt(DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 

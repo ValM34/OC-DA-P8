@@ -21,7 +21,7 @@ class RegistrationController extends AbstractController
     }
 
     // REGISTER
-    #[Route('/users/create', name: 'user_create')]
+    #[Route('/users/create', name: 'user_create', methods: ['GET', 'POST'])]
     public function register(Request $request): Response
     {
         // check for "view" access: calls all voters
