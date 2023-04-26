@@ -5,8 +5,8 @@ namespace App\Entity;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Entity\Trait\CreatedAtTrait;
-use App\Entity\Trait\UpdatedAtTrait;
+use App\Entity\Utils\CreatedAtTrait;
+use App\Entity\Utils\UpdatedAtTrait;
 
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
 class Task
