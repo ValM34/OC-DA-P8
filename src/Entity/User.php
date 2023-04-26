@@ -47,7 +47,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     )]
     private ?string $username = null;
 
-    #[ORM\OneToMany(mappedBy: 'userId', targetEntity: Task::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Task::class, orphanRemoval: true)]
     private Collection $tasks;
 
     public function __construct()
