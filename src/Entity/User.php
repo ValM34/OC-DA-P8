@@ -39,7 +39,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 25, unique: true, type: 'string')]
-    #[Assert\Length(min: 3, max: 25, minMessage: 'Votre pseudo doit contenir au moins {{ limit }} caractères', maxMessage: 'Votre pseudo ne doit pas dépasser {{ limit }} caractères')]
+    #[Assert\Length(
+        min: 3,
+        max: 25,
+        minMessage: 'Votre pseudo doit contenir au moins {{ limit }} caractères',
+        maxMessage: 'Votre pseudo ne doit pas dépasser {{ limit }} caractères'
+    )]
     private ?string $username = null;
 
     #[ORM\OneToMany(mappedBy: 'userId', targetEntity: Task::class, orphanRemoval: true)]
@@ -144,7 +149,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->tasks->contains($task)) {
             $this->tasks->add($task);
-            $task->setUserId($this);
+            $task->setUser($this);
         }
 
         return $this;
@@ -154,8 +159,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->tasks->removeElement($task)) {
             // set the owning side to null (unless already changed)
-            if ($task->getUserId() === $this) {
-                $task->setUserId(null);
+            if ($task->getUser() === $this) {
+                $task->setUser(null);
             }
         }
 
