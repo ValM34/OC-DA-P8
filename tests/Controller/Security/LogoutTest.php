@@ -16,6 +16,6 @@ final class LogoutTest extends WebTestCase
     $client->request(Request::METHOD_GET, '/logout');
     self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
     $client->followRedirect();
-    $this->assertTrue($client->getRequest()->getPathInfo() === '/');
+    $this->assertRouteSame('homepage');
   }
 }
