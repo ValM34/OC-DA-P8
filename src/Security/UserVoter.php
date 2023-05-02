@@ -5,11 +5,18 @@ namespace App\Security;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use \LogicException;
 
 class UserVoter extends Voter
 {
     public const CREATE = 'create';
     public const UPDATE = 'update';
+    private $logicException;
+
+    public function __construct()
+    {
+        $this->logicException = new LogicException();
+    }
 
     protected function supports(string $attribute, mixed $subject): bool
     {
@@ -37,7 +44,7 @@ class UserVoter extends Voter
         return match ($attribute) {
             self::CREATE => $this->canCreate($user),
             self::UPDATE => $this->canUpdate($user),
-            default => throw new \LogicException('This code should not be reached!')
+            default => throw $this->logicException
         };
     }
 

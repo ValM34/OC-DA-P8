@@ -6,9 +6,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use \LogicException;
 
 class SecurityController extends AbstractController
 {
+    private $logicException;
+
+    public function __construct()
+    {
+        $this->logicException = new LogicException();
+    }
     // LOGIN
     #[Route(path: '/login', name: 'login', methods: ['POST', 'GET'])]
     public function login(AuthenticationUtils $authenticationUtils): Response
@@ -23,6 +30,6 @@ class SecurityController extends AbstractController
     #[Route(path: '/logout', name: 'logout', methods: ['GET'])]
     public function logout(): void
     {
-        throw new \LogicException('This method can be blank,it will be intercepted by the logout key on your firewall');
+        throw $this->logicException;
     }
 }
