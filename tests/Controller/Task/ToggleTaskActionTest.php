@@ -27,15 +27,21 @@ class ToggleTaskActionTest extends WebTestCase
     $user = $entityManager->getRepository(User::class)->findOneBy(['email' => 'user1@user.fr']);
     $this->client->loginUser($user);
     $task = $this->findTask();
-    $this->client->request(Request::METHOD_GET, '/tasks/' . $task . '/toggle');
+    // if Task isDone
+    $task->setIsDone(true);
+    $this->client->request(Request::METHOD_GET, '/tasks/' . $task->getId() . '/toggle');
+    self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
+    // if Task is not done
+    $task->setIsDone(false);
+    $this->client->request(Request::METHOD_GET, '/tasks/' . $task->getId() . '/toggle');
     self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
   }
 
-  public function findTask(): int
+  public function findTask(): Task
   {
     $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => 'user1@user.fr']);
     $tasksList = $this->entityManager->getRepository(Task::class)->findBy(['user' => $user]);
 
-    return $tasksList[0]->getId();
+    return $tasksList[0];
   }
 }
