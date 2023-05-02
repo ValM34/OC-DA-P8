@@ -11,7 +11,7 @@ use DateTimeImmutable;
 
 class TaskService implements TaskServiceInterface
 {
-    private $dateTimeImmutable;
+    private DateTimeImmutable $dateTimeImmutable;
 
     public function __construct(
         private EntityManagerInterface $entityManager
@@ -23,6 +23,7 @@ class TaskService implements TaskServiceInterface
     {
         $isDone = $request->query->getBoolean('isDone', true);
 
+        /** @phpstan-ignore-next-line */
         return $this->entityManager->getRepository(Task::class)->findByIsDone($user, $isDone);
     }
 

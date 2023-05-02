@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ListActionTest extends WebTestCase
 {
-  public function testListActionIfTaskIsDone()
+  public function testListActionIfTaskIsDone(): void
   {
     $client = static::createClient();
     $client->request(Request::METHOD_GET, '/', ['isDone' => '1']);
@@ -17,7 +17,7 @@ class ListActionTest extends WebTestCase
     self::assertResponseStatusCodeSame(Response::HTTP_OK);
   }
 
-  public function testListActionIfTaskIsNotDone()
+  public function testListActionIfTaskIsNotDone(): void
   {
     $client = static::createClient();
     $client->request(Request::METHOD_GET, '/', ['isDone' => '0']);

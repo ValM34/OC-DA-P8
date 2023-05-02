@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ListActionTest extends WebTestCase
 {
-  public function testListAction()
+  public function testListAction(): void
   {
     $client = static::createClient();
     $client->request(Request::METHOD_GET, '/users');

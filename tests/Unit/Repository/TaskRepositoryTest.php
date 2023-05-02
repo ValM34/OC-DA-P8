@@ -11,9 +11,9 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class TaskRepositoryTest extends KernelTestCase
 {
-    private $entityManager;
-    private $taskRepository;
-    private $userRepository;
+    private EntityManagerInterface $entityManager;
+    private TaskRepository $taskRepository;
+    private UserRepository $userRepository;
 
     protected function setUp(): void
     {
@@ -24,7 +24,7 @@ class TaskRepositoryTest extends KernelTestCase
         $this->userRepository = $this->entityManager->getRepository(User::class);
     }
 
-    public function testFindByIsDone()
+    public function testFindByIsDone(): void
     {
         $user = $this->userRepository->findOneBy(['email' => 'user0@user.fr']);
         $tasks = $this->taskRepository->findByIsDone($user, false);

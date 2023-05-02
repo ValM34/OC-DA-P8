@@ -6,17 +6,18 @@ use App\Entity\Task;
 use App\Entity\User;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class TaskTest extends TestCase
 {
-  private $validator;
+  private ValidatorInterface $validator;
 
   protected function setUp(): void
   {
     $this->validator = Validation::createValidatorBuilder()->enableAnnotationMapping()->getValidator();
   }
 
-  public function testTaskAssertLength()
+  public function testTaskAssertLength(): void
   {
     $task = new Task();
     $toShortTitle = '12';

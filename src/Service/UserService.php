@@ -5,21 +5,17 @@ namespace App\Service;
 use App\Entity\User;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
-use App\Security\AppCustomAuthenticator;
 use DateTime;
 use Symfony\Component\HttpFoundation\Request;
 use DateTimeImmutable;
 
 class UserService implements UserServiceInterface
 {
-    private $dateTimeImmutable;
+    private DateTimeImmutable $dateTimeImmutable;
 
     public function __construct(
         private UserPasswordHasherInterface $userPasswordHasher,
         private EntityManagerInterface $entityManager,
-        private UserAuthenticatorInterface $userAuthenticator,
-        private AppCustomAuthenticator $authenticator
     ) {
         $this->dateTimeImmutable = new DateTimeImmutable();
     }

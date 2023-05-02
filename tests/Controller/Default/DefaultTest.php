@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DefaultControllerTest extends WebTestCase
 {
-  public function testIndexAction()
+  public function testIndexAction(): void
   {
     $client = static::createClient();
     $client->request(Request::METHOD_GET, '/');

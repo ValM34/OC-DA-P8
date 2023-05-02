@@ -36,6 +36,9 @@ final class RegistrationTest extends WebTestCase
     self::assertSame('newuser@user.fr', $user->getEmail());
   }
 
+  /**
+   * @return array<string>
+   */
   private static function createFormData(
     string $username = 'New user',
     string $email = 'newuser@user.fr',
