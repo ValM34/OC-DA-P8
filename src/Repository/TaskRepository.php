@@ -22,6 +22,9 @@ class TaskRepository extends ServiceEntityRepository
         parent::__construct($registry, Task::class);
     }
 
+    /**
+     * @return array<string>
+     */
     public function findByIsDone(User $user, bool $isDone): array
     {
         return $this->createQueryBuilder('t')

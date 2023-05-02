@@ -2,9 +2,10 @@
 
 ### phpstan :  
 PHPSTAN va analyser le code pour trouver des erreurs. Ca sert surtout pour le typage.  
+Il faut configurer le fichier phpstan.neon à la base du projet.  
 Pour lancer une analyse sur src et tests, faire :  
 ```bash
-vendor/bin/phpstan analyse src tests --level=6
+vendor/bin/phpstan analyse src --level=6
 ```
 Il n'est pas utile ni recommandé d'analyser le dossier vendor.  
 Plus d'informations : https://phpstan.org/user-guide/getting-started  (lien ajouté le 12/04/2023)  

@@ -7,23 +7,13 @@ use App\Form\UpdateUserType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityManagerInterface;
-use DateTimeImmutable;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Service\UserServiceInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends AbstractController
 {
-    private $dateTimeImmutable;
-
-    public function __construct(
-        private EntityManagerInterface $entityManager,
-        private UserPasswordHasherInterface $userPasswordHasher,
-        private UserServiceInterface $userService
-    ) {
-        $this->dateTimeImmutable = new DateTimeImmutable();
-    }
+    public function __construct(private UserServiceInterface $userService)
+    {}
 
     #[Route(path: '/users', name: 'user_list', methods: ['GET'])]
     public function listAction(): Response

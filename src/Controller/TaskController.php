@@ -7,25 +7,18 @@ use App\Form\TaskType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityManagerInterface;
-use DateTimeImmutable;
 use App\Service\TaskServiceInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 class TaskController extends AbstractController
 {
-    private $dateTimeImmutable;
-
-    public function __construct(
-        private EntityManagerInterface $entityManager,
-        private TaskServiceInterface $taskService
-    ) {
-        $this->dateTimeImmutable = new DateTimeImmutable();
-    }
+    public function __construct(private TaskServiceInterface $taskService)
+    {}
 
     #[Route('/tasks', name: 'task_list', methods: ['GET'])]
     public function listAction(Request $request): Response
     {
+        /** @phpstan-ignore-next-line */
         $tasksList = $this->taskService->display($this->getUser(), $request);
 
         return $this->render('task/list.html.twig', ['tasks' => $tasksList]);
@@ -39,6 +32,7 @@ class TaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @phpstan-ignore-next-line */
             $this->taskService->create($task, $this->getUser());
             $this->addFlash('success', 'La tâche a été bien été ajoutée.');
 

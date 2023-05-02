@@ -7,6 +7,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 interface UserServiceInterface
 {
+    /**
+     * @return array<User>
+     */
     public function display(): array;
     public function create(User $user, string $plainPassword, Request $request): void;
     public function update(User $user, string $plainPassword): void;

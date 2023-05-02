@@ -12,7 +12,7 @@ use App\Service\UserServiceInterface;
 
 class RegistrationController extends AbstractController
 {
-    private $user;
+    private User $user;
 
     public function __construct(
         private UserServiceInterface $userService

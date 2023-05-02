@@ -19,6 +19,9 @@ final class LoginTest extends WebTestCase
     self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
   }
 
+  /**
+   * @return array<string>
+   */
   private static function createFormData(
     string $email = 'user0@admin.fr',
     string $password = 'password'
