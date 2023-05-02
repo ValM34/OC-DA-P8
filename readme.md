@@ -36,8 +36,9 @@ phpcbf --standard=PSR12 src
 ### PHP MD :   
 PHP MD permet d'analyser le code, on peut analyser plusieurs choses et chsoisir ce qu'on analyse (pour d'informations : https://phpmd.org/documentation/index.html). Exemple de test sur le dossier src :  
 ```bash
-php vendor/bin/phpmd src text codesize,unusedcode,naming
+php vendor/bin/phpmd src text phpmd.xml
 ```
+Configurable à la racine du projet dans phpmd.xml
 
 ### Tests :  
 Quelques commandes utiles pour générer les tests unitaires/fonctionnels :  

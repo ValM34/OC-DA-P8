@@ -77,14 +77,14 @@ class TaskController extends AbstractController
             $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle()));
 
             return $this->redirectToRoute('task_list', ['isDone' => 'true']);
-        } else {
-            $this->addFlash(
-                'success',
-                sprintf('La tâche %s a bien été marquée comme non terminée.', $task->getTitle())
-            );
-
-            return $this->redirectToRoute('task_list', ['isDone' => 'false']);
         }
+
+        $this->addFlash(
+            'success',
+            sprintf('La tâche %s a bien été marquée comme non terminée.', $task->getTitle())
+        );
+
+        return $this->redirectToRoute('task_list', ['isDone' => 'false']);
     }
 
     #[Route(path: '/tasks/{id}/delete', name: 'task_delete', methods: ['GET'])]

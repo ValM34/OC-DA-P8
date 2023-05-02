@@ -6,10 +6,17 @@ use App\Entity\User;
 use App\Entity\Task;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use \LogicException;
 
 class TaskVoter extends Voter
 {
     public const HANDLE = 'handle';
+    private $logicException;
+
+    public function __construct()
+    {
+        $this->logicException = new LogicException();
+    }
 
     protected function supports(string $attribute, mixed $subject): bool
     {
@@ -36,7 +43,7 @@ class TaskVoter extends Voter
 
         return match ($attribute) {
             self::HANDLE => $this->canHandle($subject, $user),
-            default => throw new \LogicException('This code should not be reached!')
+            default => throw $this->logicException
         };
     }
 
