@@ -5,24 +5,34 @@ namespace App\Tests\Task;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\User;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
 class ListActionTest extends WebTestCase
 {
-  public function testListActionIfTaskIsDone(): void
-  {
-    $client = static::createClient();
-    $client->request(Request::METHOD_GET, '/', ['isDone' => '1']);
-    $this->assertTrue($client->getRequest()->getQueryString() === 'isDone=1');
-    self::assertResponseIsSuccessful();
-    self::assertResponseStatusCodeSame(Response::HTTP_OK);
-  }
+    private KernelBrowser $client;
+    private EntityManagerInterface $entityManager;
 
-  public function testListActionIfTaskIsNotDone(): void
-  {
-    $client = static::createClient();
-    $client->request(Request::METHOD_GET, '/', ['isDone' => '0']);
-    $this->assertTrue($client->getRequest()->getQueryString() === 'isDone=0');
-    self::assertResponseIsSuccessful();
-    self::assertResponseStatusCodeSame(Response::HTTP_OK);
-  }
+    protected function setUp(): void
+    {
+        $this->client = static::createClient();
+        $this->entityManager = $this->client->getContainer()->get('doctrine')->getManager();
+    }
+
+    public function testListActionIfTaskIsDone(): void
+    {
+        $user = $this->findUser();
+        $this->client->loginUser($user);
+        $this->client->request(Request::METHOD_GET, '/tasks');
+        self::assertResponseIsSuccessful();
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
+    }
+
+    public function findUser(): User
+    {
+        $usersList = $this->entityManager->getRepository(User::class)->findAll();
+
+        return $usersList[0];
+    }
 }

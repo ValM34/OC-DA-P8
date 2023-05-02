@@ -22,7 +22,7 @@ class CreateActionTest extends WebTestCase
 
   public function testCreateAction(): void
   {
-    $user = $this->findTask();
+    $user = $this->findUser();
     $this->client->loginUser($user);
     $this->client->request(Request::METHOD_GET, '/tasks/create');
     self::assertResponseIsSuccessful();
@@ -43,7 +43,7 @@ class CreateActionTest extends WebTestCase
       ];
   }
 
-  public function findTask(): User
+  public function findUser(): User
   {
     $usersList = $this->entityManager->getRepository(User::class)->findAll();
 
