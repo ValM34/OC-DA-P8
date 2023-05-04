@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
+use App\Entity\Task;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
 class ListActionTest extends WebTestCase
@@ -24,7 +25,13 @@ class ListActionTest extends WebTestCase
     {
         $user = $this->findUser();
         $this->client->loginUser($user);
-        $this->client->request(Request::METHOD_GET, '/tasks');
+        $this->client->request(Request::METHOD_GET, '/tasks?isDone=0');
+        self::assertResponseIsSuccessful();
+        self::assertResponseStatusCodeSame(Response::HTTP_OK);
+
+        $admin = $this->findAdmin();
+        $this->client->loginUser($admin);
+        $this->client->request(Request::METHOD_GET, '/tasks?isDone=0');
         self::assertResponseIsSuccessful();
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
     }
@@ -34,5 +41,12 @@ class ListActionTest extends WebTestCase
         $usersList = $this->entityManager->getRepository(User::class)->findAll();
 
         return $usersList[0];
+    }
+
+    public function findAdmin(): User
+    {
+        $admin = $this->entityManager->getRepository(User::class)->findOneBy(['email' => 'user0@admin.fr']);
+
+        return $admin;
     }
 }
