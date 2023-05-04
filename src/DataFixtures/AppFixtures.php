@@ -43,10 +43,11 @@ class AppFixtures extends Fixture
                 ->setCreatedAt($date)
                 ->setUpdatedAt($date);
             $manager->persist($user);
+
+            $this->addTaskForUser($user, $manager);
         }
 
-        $this->addTaskForUser($user, $manager);
-
+        $this->addAnonymousTask($manager);
         $manager->flush();
     }
 
@@ -60,6 +61,22 @@ class AppFixtures extends Fixture
                 ->setTitle('Tâche' . $i)
                 ->setContent('Contenu de la tâche')
                 ->setUser($user)
+                ->setIsDone(false)
+                ->setCreatedAt($date)
+                ->setUpdatedAt($date);
+            $manager->persist($task);
+        }
+    }
+
+    public function addAnonymousTask(ObjectManager $manager): void
+    {
+        $date = new DateTimeImmutable();
+
+        for ($i = 10; $i < 20; $i++) {
+            $task = new Task();
+            $task
+                ->setTitle('Tâche' . $i)
+                ->setContent('Contenu de la tâche')
                 ->setIsDone(false)
                 ->setCreatedAt($date)
                 ->setUpdatedAt($date);

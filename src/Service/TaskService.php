@@ -23,6 +23,12 @@ class TaskService implements TaskServiceInterface
     {
         $isDone = $request->query->getBoolean('isDone', true);
 
+        if($user->getRoles()[0] === 'ROLE_ADMIN'){
+            $taskList = $this->entityManager->getRepository(Task::class)->findByIsDoneAdmin($user, $isDone);
+
+            return $taskList;
+        }
+
         /** @phpstan-ignore-next-line */
         return $this->entityManager->getRepository(Task::class)->findByIsDone($user, $isDone);
     }
@@ -42,8 +48,7 @@ class TaskService implements TaskServiceInterface
 
     public function update(Task $task): void
     {
-        $task
-            ->setUpdatedAt($this->dateTimeImmutable);
+        $task->setUpdatedAt($this->dateTimeImmutable);
         $this->entityManager->flush();
     }
 

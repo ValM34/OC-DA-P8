@@ -37,4 +37,30 @@ class TaskRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * @return array<string>
+     */
+    public function findByIsDoneAdmin(User $user, bool $isDone): array
+    {
+        $queryBuilder = $this->createQueryBuilder('t')
+            ->select('t', 'u')
+            ->leftJoin('t.user', 'u')
+            ->andWhere('t.isDone = :isDone')
+            ->setParameter('isDone', $isDone)
+            ->andWhere('u IS NULL')
+            ->orWhere('u = :user')
+            ->andWhere('t.isDone = :isDone')
+            ->setParameter('isDone', $isDone)
+            ->setParameter('user', $user)
+        ;
+        $taskList = $queryBuilder->getQuery()->getResult();
+        foreach($taskList as $task){
+            if($task->getUser() === null){
+                $task->setTitle('[Anonyme] - ' . $task->getTitle());
+            }
+        }
+
+        return $taskList;
+    }
 }

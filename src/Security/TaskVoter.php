@@ -49,6 +49,10 @@ class TaskVoter extends Voter
 
     private function canHandle(mixed $subject, User $user): bool
     {
+        if($user->getRoles()[0] = 'ROLE_ADMIN'){
+            return true;
+        }
+        
         return $subject->getUser() === $user;
     }
 }
