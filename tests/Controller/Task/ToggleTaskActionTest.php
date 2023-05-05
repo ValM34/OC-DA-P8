@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Task;
+namespace App\Tests\Controller\Task;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
