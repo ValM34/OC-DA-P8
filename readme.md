@@ -1,53 +1,38 @@
-# Création du readme.md
-
-### phpstan :  
-PHPSTAN va analyser le code pour trouver des erreurs. Ca sert surtout pour le typage.  
-Il faut configurer le fichier phpstan.neon à la base du projet.  
-Pour lancer une analyse sur src et tests, faire :  
+# Configuration  
+## Requis  
+- php >= 8.1  
+- symfony >= 6.2  
+- MySQL >= 8  
+- Composer >= 2.2  
+- Symfony CLI >= 5.4  
+# Installation du projet  
+## Cloner le repository github  
 ```bash
-vendor/bin/phpstan
+git clone https://github.com/ValM34/OP-DA-P7.git
 ```
-Il n'est pas utile ni recommandé d'analyser le dossier vendor.  
-Plus d'informations : https://phpstan.org/user-guide/getting-started  (lien ajouté le 12/04/2023)  
-
-### PHP CS FIXER :  
-PHP CS FIXER va analyser et <strong>modifier</strong> le code pour faire en sorte de respecter les conventions de codage et la syntaxe de PHP.  
-Pour lancer PHP CS FIXER sur src (par exemple), lancez cette commande :  
+## Installer les dépendances  
 ```bash
-tools/php-cs-fixer/vendor/bin/php-cs-fixer fix src
+composer install
 ```
-
-### PHP CODE SNIFFER :   
-PHP CODE SNIFFER est un outil d'analyse de la syntaxe et des conventions en php. Il ne modifie pas le code directement. L'utilisation de PHP CS FIXER n'empêche pas celle de PHP CODE SNIFFER car même après avoir utilisé PHP CS FIXER vous pourrez trouver beaucoup d'erreurs avec PHP CODE SNIFFER.  
-Pour l'utiliser, je l'ai installé de manière globale sur ma machine, il n'est donc pas présent de base sur le projet.  
-Pour lancer une analyse sur src (par exemple), lancez cette commande :  
+## Configurer le projet  
+Créez un fichier .env.local à la racine de votre projet. Vous pouvez copier/coller le fichier .env pour avoir une base configurable.  
+Pensez bien à remplir les informations à propos de votre système de gestion de base de données.  
+## Créer la base de données  
 ```bash
-phpcs src
+symfony console doctrine:database:create
 ```
-Pour vérifier une convention précise (par exemple PSR12 pour src), lancez cette commande :  
+## Effectuer les migrations  
 ```bash
-phpcs --standard=PSR12 src
+symfony console doctrine:migrations:migrate
 ```
-Pour fixer cette même convention : 
+## Ajouter des datafixtures (optionnel)  
+L'ajout d'un jeu de données n'est pas recommandé en production.  
+Pour ajouter des données initiales, tapez la commande suivante :  
 ```bash
-phpcbf --standard=PSR12 src
+php bin/console doctrine:fixtures:load
 ```
-
-### PHP MD :   
-PHP MD permet d'analyser le code, on peut analyser plusieurs choses et chsoisir ce qu'on analyse (pour d'informations : https://phpmd.org/documentation/index.html). Exemple de test sur le dossier src :  
+# Lancer le projet  
+Saisissez la commande suivante :  
 ```bash
-php vendor/bin/phpmd src text phpmd.xml
-```
-Configurable à la racine du projet dans phpmd.xml
-
-### Tests :  
-Quelques commandes utiles pour générer les tests unitaires/fonctionnels :  
-```bash
-php bin/console doctrine:database:create --env=test
-php bin/console doctrine:migrations:migrate --env=test
-php bin/console doctrine:fixtures:load --env=test
-```
-Générer le rapport de couvertures de tests :  
-```bash
-vendor/bin/phpunit --coverage-html public/test-coverage
+symfony serve
 ```
