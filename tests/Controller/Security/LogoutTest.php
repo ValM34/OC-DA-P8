@@ -35,7 +35,7 @@ final class LogoutTest extends WebTestCase
 
     public function testLogoutThrowsLogicException(): void
     {
-        $controller = new SecurityController(new \Exception('Test exception'));
+        $controller = new SecurityController();
 
         $this->expectException(\LogicException::class);
         $controller->logout();

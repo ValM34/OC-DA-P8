@@ -6,12 +6,12 @@ use App\Entity\User;
 use App\Entity\Task;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use \LogicException;
+use LogicException;
 
 class TaskVoter extends Voter
 {
     public const HANDLE = 'handle';
-    private $logicException;
+    private LogicException $logicException;
 
     public function __construct()
     {
@@ -49,10 +49,10 @@ class TaskVoter extends Voter
 
     private function canHandle(mixed $subject, User $user): bool
     {
-        if($user->getRoles()[0] = 'ROLE_ADMIN'){
+        if ($user->getRoles()[0] === 'ROLE_ADMIN') {
             return true;
         }
-        
+
         return $subject->getUser() === $user;
     }
 }

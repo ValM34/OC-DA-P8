@@ -13,7 +13,8 @@ use Symfony\Component\HttpFoundation\Response;
 class TaskController extends AbstractController
 {
     public function __construct(private TaskServiceInterface $taskService)
-    {}
+    {
+    }
 
     #[Route('/tasks', name: 'task_list', methods: ['GET'])]
     public function listAction(Request $request): Response
