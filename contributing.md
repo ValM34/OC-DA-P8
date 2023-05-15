@@ -13,7 +13,7 @@ php bin/console doctrine:fixtures:load --env=test
 ```
 Générer le rapport de couvertures de tests :  
 ```bash
-vendor/bin/phpunit --coverage-html public/test-coverage
+vendor/bin/phpunit --coverage-html test-coverage
 ```
 # Etape 4 : Lancer les analyses automatiques  
 ## phpstan  

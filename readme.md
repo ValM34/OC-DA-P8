@@ -8,7 +8,7 @@
 # Installation du projet  
 ## Cloner le repository github  
 ```bash
-git clone https://github.com/ValM34/OP-DA-P7.git
+git clone https://github.com/ValM34/OC-DA-P8.git
 ```
 ## Installer les dépendances  
 ```bash
