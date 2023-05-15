@@ -3,7 +3,7 @@
 namespace App\Entity\Utils;
 
 use Doctrine\ORM\Mapping as ORM;
-use \DateTimeImmutable;
+use DateTimeImmutable;
 
 trait CreatedAtTrait
 {

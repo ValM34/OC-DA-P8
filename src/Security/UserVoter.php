@@ -5,13 +5,13 @@ namespace App\Security;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use \LogicException;
+use LogicException;
 
 class UserVoter extends Voter
 {
     public const CREATE = 'create';
     public const UPDATE = 'update';
-    private $logicException;
+    private LogicException $logicException;
 
     public function __construct()
     {

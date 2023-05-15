@@ -13,7 +13,8 @@ use Symfony\Component\HttpFoundation\Response;
 class UserController extends AbstractController
 {
     public function __construct(private UserServiceInterface $userService)
-    {}
+    {
+    }
 
     #[Route(path: '/users', name: 'user_list', methods: ['GET'])]
     public function listAction(): Response

@@ -23,7 +23,8 @@ class TaskService implements TaskServiceInterface
     {
         $isDone = $request->query->getBoolean('isDone', true);
 
-        if($user->getRoles()[0] === 'ROLE_ADMIN'){
+        if ($user->getRoles()[0] === 'ROLE_ADMIN') {
+            /** @phpstan-ignore-next-line */
             $taskList = $this->entityManager->getRepository(Task::class)->findByIsDoneAdmin($user, $isDone);
 
             return $taskList;

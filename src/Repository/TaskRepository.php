@@ -55,8 +55,8 @@ class TaskRepository extends ServiceEntityRepository
             ->setParameter('user', $user)
         ;
         $taskList = $queryBuilder->getQuery()->getResult();
-        foreach($taskList as $task){
-            if($task->getUser() === null){
+        foreach ($taskList as $task) {
+            if ($task->getUser() === null) {
                 $task->setTitle('[Anonyme] - ' . $task->getTitle());
             }
         }
